@@ -24,7 +24,7 @@ pipeline
       steps {
         echo "Getting Exploratory Testing Repo"
         git(
-        url:'git@github.com:ochoadevops/blue_green_deployment.git',
+        url:'git@github.com:bglogowski/petclinic-blue-green.git',
         credentialsId: 'blue-green',
         branch: "master"
         )
@@ -123,9 +123,9 @@ pipeline
 
                  sh 'pwd'
                  sh 'ls -l'
-                 sh '/usr/local/bin/terraform init -input=false'
-                 sh '/usr/local/bin/terraform plan'
-                 sh '/usr/local/bin/terraform apply -auto-approve'
+                 sh '/usr/bin/terraform init -input=false'
+                 sh '/usr/bin/terraform plan'
+                 sh '/usr/bin/terraform apply -auto-approve'
               
               }
            }
@@ -190,12 +190,12 @@ pipeline
 
                  sh 'pwd'
                  sh 'ls -l'
-                 sh '/usr/local/bin/terraform init -input=false'
-                 sh '/usr/local/bin/terraform plan'
+                 sh '/usr/bin/terraform init -input=false'
+                 sh '/usr/bin/terraform plan'
                  try {
-                    sh '/usr/local/bin/terraform apply -auto-approve'
+                    sh '/usr/bin/terraform apply -auto-approve'
                  } catch (err) {
-                    sh '/usr/local/bin/terraform apply -auto-approve'
+                    sh '/usr/bin/terraform apply -auto-approve'
                  }
               
               }
@@ -241,7 +241,7 @@ pipeline
                    writeFile file: 'terraform.tfvars', text: readContent+"\n$amiNameTag"+"\n$thisTestNameVar"
 
                    echo "Test completed, destroying environment"
-                   sh '/usr/local/bin/terraform destroy -auto-approve'
+                   sh '/usr/bin/terraform destroy -auto-approve'
                  }
               } 
               echo "Done with stage" 

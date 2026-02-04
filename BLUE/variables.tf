@@ -43,12 +43,12 @@ variable "availability_zones" {
 
 variable "aws_region" {
   description = "Identifies AWS region to use"
-  default     = "us-west-1"
+  default     = "us-west-2"
 }
 
 variable "region" {
   description = "Identifies AWS region to use"
-  default     = "us-west-1"
+  default     = "us-west-2"
 }
 
 variable "build_id" {
@@ -64,7 +64,7 @@ variable "test-name" {
 variable "amis" {
   description = "AMIs by region"
   default = {
-    us-west-1 = "" # ubuntu 
+    us-west-2 = "" # ubuntu 
   }
 }
 

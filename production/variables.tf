@@ -23,12 +23,12 @@ variable "Tool" {
 
 variable "aws_region" {
   description = "Identifies AWS region to use"
-  default     = "us-west-1"
+  default     = "us-west-2"
 }
 
 variable "region" {
   description = "Identifies AWS region to use"
-  default     = "us-west-1"
+  default     = "us-west-2"
 }
 
 variable "availability_zones" {
