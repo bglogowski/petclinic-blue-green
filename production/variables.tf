@@ -3,7 +3,7 @@
 
 variable "project-domain" {
   description = "Identifies the project domain"
-  default     = "ochoajenkins.com"
+  default     = ""
 }
 
 variable "environment" {
