@@ -4,7 +4,7 @@ variable "infrastructure_version" {
 
 terraform {
   backend "s3" {
-    bucket = "01-prod-blue"
+    bucket = "cse-41381-bglogowski-blue"
     region = "us-west-2"
     key    = "terraform.tfstate"
   }
