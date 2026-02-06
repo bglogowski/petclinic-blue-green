@@ -25,8 +25,8 @@ pipeline
         echo "Getting Exploratory Testing Repo"
         git(
         url:'git@github.com:bglogowski/petclinic-blue-green.git',
-        credentialsId: 'blue-green',
-        branch: "master"
+        credentialsId: 'jenkins',
+        branch: "main"
         )
      }
 
