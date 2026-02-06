@@ -67,6 +67,7 @@ pipeline
            sh 'pwd'
            script {
               slackSend channel: '#jenkins', message: "${env.JOB_NAME} build #${env.BUILD_NUMBER} stage: SELECT DEPLOYMENT ENVIRONMENT - INPUT REQUIRED"
+              slackSend channel: '@glog', message: "${env.JOB_NAME} build #${env.BUILD_NUMBER} has requested input from you"
               env.DEPLOY_TO = input message: 'Please select environment location to deploy', parameters: [choice(name: 'Environments Available', choices: 'BLUE\nGREEN', description: 'WARNING: Before deploying release, the selected environment will be replaced with the new deployment' )]
            }
            echo "Selected Environment to Deploy:  "
@@ -160,6 +161,7 @@ pipeline
            sh 'pwd'
            script {
               slackSend channel: '#jenkins', message: "${env.JOB_NAME} build #${env.BUILD_NUMBER} stage: Destroy Environment - INPUT REQUIRED"
+              slackSend channel: '@glog', message: "${env.JOB_NAME} build #${env.BUILD_NUMBER} has requested input from you"
           
               if (env.DEPLOY_TO == "GREEN") {  
                  old_environment = "BLUE"
