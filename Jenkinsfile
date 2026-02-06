@@ -147,7 +147,7 @@ pipeline
               script {
                  sh 'pwd'
 
-                 deployToLC = env.DEPLOY_TO.toLowerCase();
+                 def deployToLC = env.DEPLOY_TO.toLowerCase();
 
                  echo "Checking if terraform s3 boostrap bucket for ${deployToLC} environment exists"
 
@@ -157,8 +157,8 @@ pipeline
 
                  echo "aws_list_bucket string is: $aws_list_bucket"
 
-                 def bucketResult;
-                 bucketResult = sh (returnStdout: true, script: "eval ${aws_list_bucket}");
+
+                 def bucketResult = sh (returnStdout: true, script: "eval ${aws_list_bucket}");
                  // Remove blank lines from result
                  bucketResult = bucketResult.replaceAll("[\r\n]+","");
 
@@ -173,7 +173,7 @@ pipeline
 		 if ("$bucketResult".toString().equals("$s3BucketName".toString())) {  
                     echo "terraform bucket already exists."
                  } else {
-                    sh 'aws s3 mb s3://"$s3BucketName".toString() --region us-west-2'
+                    sh 'aws s3 mb s3://"$s3BucketName" --region us-west-2'
                     echo "Created terraform bucket."
                  }
 
