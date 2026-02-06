@@ -44,7 +44,7 @@ resource "aws_lb_target_group" "web" {
 }
 
 resource "aws_autoscaling_group" "instance_ami" {
-  name                      = "asg-node-app-${aws_launch_configuration.lc_web.name}"
+  #name                      = "asg-node-app-${aws_launch_configuration.lc_web.name}"
   #launch_configuration      = aws_launch_configuration.lc_web.name
   #availability_zones        = var.availability_zones
   min_size                  = 1
