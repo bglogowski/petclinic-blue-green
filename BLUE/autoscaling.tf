@@ -31,11 +31,6 @@ resource "aws_lb_target_group" "web" {
   vpc_id      = data.aws_vpc.production.id
   target_type = "instance"
 
-  launch_template {
-    id = aws_launch_template.lc_web.id
-    version = "$Latest"
-  }
-
   health_check {
     interval            = 30
     path                = "/index.html"
