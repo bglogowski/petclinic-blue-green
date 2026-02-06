@@ -86,32 +86,6 @@ pipeline
               script {
                  sh 'pwd'
 
-                 echo "Checking if terraform s3 boostrap bucket for vpc environment exists"
-
-                 // Check if bucket exists before creating it. This is used by terraform to save the state file
-                 aws_list_bucket = "aws s3api list-buckets --query \"Buckets[].Name\" | grep \"cse-41381-terraform-bucket\" | awk '{print \$1}'  | awk '{print substr(\$1,2); }' | awk '{print substr(\$1, 1, length(\$1)-2)}'"
-
-                 echo "aws_list_bucket string is: $aws_list_bucket"
-
-                 def bucketResult; 
-                 bucketResult = sh (returnStdout: true, script: "eval ${aws_list_bucket}");
-
-                 // Remove blank lines from result
-                 bucketResult = bucketResult.replaceAll("[\r\n]+","");
-
-                 echo "bucket result is:"
-                 echo "'$bucketResult'"
-                 echo "done printing"
-                
-
-                 if ("$bucketResult".toString().equals("cse-41381-terraform-bucket")) {  
-                    echo "terraform bucket already exists."
-                 } else {
-                    sh 'aws s3 mb s3://cse-41381-terraform-bucket --region us-west-2'
-                    echo "Created terraform bucket."
-                 }
-
-
                  echo "update terraform variables "
 
                  amiNameTagValue = "$this_artifact" + "-" + "$this_jenkins_build_id";
@@ -147,39 +121,7 @@ pipeline
               script {
                  sh 'pwd'
 
-                 def deployToLC = env.DEPLOY_TO.toLowerCase();
-
-                 echo "Checking if terraform s3 boostrap bucket for ${deployToLC} environment exists"
-
-                 // Check if bucket exists before creating it. This is used by terraform to save the state file
-                 aws_list_bucket = "aws s3api list-buckets --query \"Buckets[].Name\" | grep \"cse-41381-terraform-bucket-${deployToLC}\" | awk '{print \$1}'  | awk '{print substr(\$1,2); }' | awk '{print substr(\$1, 1, length(\$1)-2)}'"
-
-
-                 echo "aws_list_bucket string is: $aws_list_bucket"
-
-
-                 def bucketResult = sh (returnStdout: true, script: "eval ${aws_list_bucket}");
-                 // Remove blank lines from result
-                 bucketResult = bucketResult.replaceAll("[\r\n]+","");
-
-                 echo "bucket result is:"
-                 echo "'$bucketResult'"
-                 echo "done printing"
-               
-                 def s3BucketName = "cse-41381-terraform-bucket-${deployToLC}" 
-                 echo "s3BucketName name is:"
-                 echo "'$s3BucketName'"
-
-		 if ("$bucketResult".toString().equals("$s3BucketName".toString())) {  
-                    echo "terraform bucket already exists."
-                 } else {
-                    sh 'aws s3 mb s3://"$s3BucketName" --region us-west-2'
-                    echo "Created terraform bucket."
-                 }
-
-
                  echo "update terraform variables "
-                 sh 'pwd'
 
                  amiNameTagValue = "$this_artifact" + "-" + "$this_jenkins_build_id";
                  amiNameTag = "build_id=\"" + "$amiNameTagValue" + "\"";
