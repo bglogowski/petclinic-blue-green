@@ -104,10 +104,10 @@ pipeline
                  echo "done printing"
                 
 
-                 if ("$bucketResult".toString().equals("01-production")) {  
+                 if ("$bucketResult".toString().equals("cse-41381-bglogowski")) {  
                     echo "terraform bucket already exists."
                  } else {
-                    sh 'aws s3 mb s3://cse-41381-bglogowski --region us-west-1'
+                    sh 'aws s3 mb s3://cse-41381-bglogowski --region us-west-2'
                     echo "Created terraform bucket."
                  }
 
@@ -152,7 +152,7 @@ pipeline
                  echo "Checking if terraform s3 boostrap bucket for ${deployToLC} environment exists"
 
                  // Check if bucket exists before creating it. This is used by terraform to save the state file
-                 aws_list_bucket = "aws s3api list-buckets --query \"Buckets[].Name\" | grep \"01-prod-${deployToLC}\" | awk '{print \$1}'  | awk '{print substr(\$1,2); }' | awk '{print substr(\$1, 1, length(\$1)-2)}'"
+                 aws_list_bucket = "aws s3api list-buckets --query \"Buckets[].Name\" | grep \"cse-41381-bglogowski-${deployToLC}\" | awk '{print \$1}'  | awk '{print substr(\$1,2); }' | awk '{print substr(\$1, 1, length(\$1)-2)}'"
 
 
                  echo "aws_list_bucket string is: $aws_list_bucket"
@@ -166,14 +166,14 @@ pipeline
                  echo "'$bucketResult'"
                  echo "done printing"
                
-                 def s3BucketName = "01-prod-${deployToLC}" 
+                 def s3BucketName = "cse-41381-bglogowski-${deployToLC}" 
                  echo "s3BucketName name is:"
                  echo "'$s3BucketName'"
 
 		 if ("$bucketResult".toString().equals("$s3BucketName".toString())) {  
                     echo "terraform bucket already exists."
                  } else {
-                    sh 'aws s3 mb s3://"$s3BucketName".toString() --region us-west-1'
+                    sh 'aws s3 mb s3://"$s3BucketName".toString() --region us-west-2'
                     echo "Created terraform bucket."
                  }
 
