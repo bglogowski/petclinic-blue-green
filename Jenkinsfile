@@ -97,9 +97,9 @@ pipeline
 
                  sh 'pwd'
                  sh 'ls -l'
-                 sh '/usr/bin/terraform init -input=false'
-                 sh '/usr/bin/terraform plan'
-                 sh '/usr/bin/terraform apply -auto-approve'
+                 sh '/usr/bin/terraform init -input=false -no-color'
+                 sh '/usr/bin/terraform plan -no-color'
+                 sh '/usr/bin/terraform apply -auto-approve -no-color'
               
               }
            }
@@ -132,12 +132,12 @@ pipeline
 
                  sh 'pwd'
                  sh 'ls -l'
-                 sh '/usr/bin/terraform init -input=false'
-                 sh '/usr/bin/terraform plan'
+                 sh '/usr/bin/terraform init -input=false -no-color'
+                 sh '/usr/bin/terraform plan -no-color'
                  try {
-                    sh '/usr/bin/terraform apply -auto-approve'
+                    sh '/usr/bin/terraform apply -auto-approve -no-color'
                  } catch (err) {
-                    sh '/usr/bin/terraform apply -auto-approve'
+                    sh '/usr/bin/terraform apply -auto-approve -no-color'
                  }
               
               }
@@ -183,7 +183,7 @@ pipeline
                    writeFile file: 'terraform.tfvars', text: readContent+"\n$amiNameTag"+"\n$thisTestNameVar"
 
                    echo "Test completed, destroying environment"
-                   sh '/usr/bin/terraform destroy -auto-approve'
+                   sh '/usr/bin/terraform destroy -auto-approve -no-color'
                  }
               } 
               echo "Done with stage" 
