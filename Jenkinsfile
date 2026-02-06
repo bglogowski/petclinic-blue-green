@@ -36,6 +36,7 @@ pipeline
    stage('Read Properties File') {
       steps {
         script {
+           slackSend channel: '#jenkins', message: "${env.JOB_NAME} build #${env.BUILD_NUMBER} stage: Read Properties File"
 
            copyArtifacts(projectName: "${ProjectName}");
            props = readProperties file:"${fileProperties}";
@@ -65,6 +66,7 @@ pipeline
            echo "Starting --- deployment" 
            sh 'pwd'
            script {
+              slackSend channel: '#jenkins', message: "${env.JOB_NAME} build #${env.BUILD_NUMBER} stage: SELECT DEPLOYMENT ENVIRONMENT - INPUT REQUIRED"
               env.DEPLOY_TO = input message: 'Please select environment location to deploy', parameters: [choice(name: 'Environments Available', choices: 'BLUE\nGREEN', description: 'WARNING: Before deploying release, the selected environment will be replaced with the new deployment' )]
            }
            echo "Selected Environment to Deploy:  "
@@ -84,6 +86,7 @@ pipeline
            dir('./production')
            {
               script {
+                 slackSend channel: '#jenkins', message: "${env.JOB_NAME} build #${env.BUILD_NUMBER} stage: Deploying VPC"
                  sh 'pwd'
 
                  echo "update terraform variables "
@@ -119,6 +122,7 @@ pipeline
            dir("${env.DEPLOY_TO}")
            {
               script {
+                 slackSend channel: '#jenkins', message: "${env.JOB_NAME} build #${env.BUILD_NUMBER} stage: Deploying Environment"
                  sh 'pwd'
 
                  echo "update terraform variables "
@@ -155,6 +159,7 @@ pipeline
 
            sh 'pwd'
            script {
+              slackSend channel: '#jenkins', message: "${env.JOB_NAME} build #${env.BUILD_NUMBER} stage: Destroy Environment - INPUT REQUIRED"
           
               if (env.DEPLOY_TO == "GREEN") {  
                  old_environment = "BLUE"
