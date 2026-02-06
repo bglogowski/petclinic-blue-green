@@ -1,12 +1,25 @@
-resource "aws_launch_configuration" "lc_web" {
-  image_id        = data.aws_ami.instance_ami.id
-  instance_type   = "t2.micro"
-  security_groups = [aws_security_group.terraform-blue-green.id]
+#resource "aws_launch_configuration" "lc_web" {
+#  image_id        = data.aws_ami.instance_ami.id
+#  instance_type   = "t2.micro"
+#  security_groups = [aws_security_group.terraform-blue-green.id]
+#
+#  #security_groups = ["${aws_security_group.web_security_group.id}"]
+#  lifecycle {
+#    create_before_destroy = true
+#  }
+#}
+
+resource "aws_launch_template" "lc_web" {
+  name = "lc_web-launch-template"
+  image_id = data.aws_ami.instance_ami.id
+  instance_type = "t2.micro"        # replace with desired instance type
+  #security_groups = [aws_security_group.terraform-blue-green.id]
 
   #security_groups = ["${aws_security_group.web_security_group.id}"]
   lifecycle {
     create_before_destroy = true
   }
+
 }
 
 resource "aws_lb_target_group" "web" {
@@ -47,7 +60,7 @@ resource "aws_autoscaling_policy" "web_target_tracking_policy" {
 
 resource "aws_autoscaling_group" "instance_ami" {
   name                      = "asg-node-app-${aws_launch_configuration.lc_web.name}"
-  launch_configuration      = aws_launch_configuration.lc_web.name
+  #launch_configuration      = aws_launch_configuration.lc_web.name
   #availability_zones        = var.availability_zones
   min_size                  = 1
   max_size                  = 4
@@ -58,6 +71,11 @@ resource "aws_autoscaling_group" "instance_ami" {
 
   vpc_zone_identifier = aws_subnet.terraform-blue-green.*.id
   target_group_arns   = [aws_lb_target_group.web.arn]
+
+  launch_template {
+    id = aws_launch_template.lc_web.id
+    version = "$Latest"
+  }
 
   lifecycle {
     create_before_destroy = true
