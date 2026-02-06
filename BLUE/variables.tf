@@ -3,7 +3,7 @@
 
 variable "project_domain" {
   description = "Identifies the project domain"
-  default     = ""
+  default     = "cse-41381-bglogowski.com"
 }
 
 variable "environment" {
