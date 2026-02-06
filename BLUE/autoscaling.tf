@@ -13,7 +13,7 @@ resource "aws_launch_template" "lc_web" {
   name = "lc_web-launch-template"
   image_id = data.aws_ami.instance_ami.id
   instance_type = "t2.micro"        # replace with desired instance type
-  security_groups = [aws_security_group.terraform-blue-green.id]
+  #security_groups = [aws_security_group.terraform-blue-green.id]
 
   #security_groups = ["${aws_security_group.web_security_group.id}"]
   lifecycle {
