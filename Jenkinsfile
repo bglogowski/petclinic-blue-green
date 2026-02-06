@@ -12,7 +12,7 @@ pipeline
     amiNameTagValue = "";
     thisTestNameVar = "";
     thisTestValue = "blue_green_deployment";
-    ProjectName = "01-Build";
+    ProjectName = "petclinic-spring";
     fileProperties = "file.properties"
     old_environment = "";
   }
