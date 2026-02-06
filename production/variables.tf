@@ -39,3 +39,7 @@ variable "cidr_block" {
   description = "CIDR Block"
 }
 
+variable "test-name" {
+  description = "test name"
+  default     = "exploratory-testing"
+}
