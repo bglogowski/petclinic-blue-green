@@ -64,7 +64,7 @@ variable "test-name" {
 variable "amis" {
   description = "AMIs by region"
   default = {
-    us-west-2 = "ami-0e19259be9560bb68" # ubuntu 
+    us-west-2 = "ami-047c73e3e019a2567" # ubuntu 
   }
 }
 
