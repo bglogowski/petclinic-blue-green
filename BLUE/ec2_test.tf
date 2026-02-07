@@ -53,7 +53,7 @@ resource "aws_instance" "test-instance" {
   # Since ASG will launch configuration automatically, no longer need to create them here
   #count                  = "${length(var.availability_zones)}"
   count                  = 0
-  ami                    = data.aws_ami.instance_ami.id
+  ami                    = "ami-00d0ecca5d4f95941"
   instance_type          = "t3.micro"
   key_name               = "cse41381"
   vpc_security_group_ids = [aws_security_group.web_security_group.id]
