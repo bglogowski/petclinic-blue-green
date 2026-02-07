@@ -54,7 +54,7 @@ resource "aws_instance" "test-instance" {
   #count                  = "${length(var.availability_zones)}"
   count                  = 0
   ami                    = data.aws_ami.instance_ami.id
-  instance_type          = "t2.micro"
+  instance_type          = "t3.micro"
   key_name               = "cse41381"
   vpc_security_group_ids = [aws_security_group.web_security_group.id]
   subnet_id              = element(local.subnets, count.index)
