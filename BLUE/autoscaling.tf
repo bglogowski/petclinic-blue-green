@@ -39,7 +39,7 @@ resource "aws_lb_target_group" "web" {
     unhealthy_threshold = 2
     timeout             = 3
     protocol            = "HTTP"
-    matcher             = "200,202"
+    matcher             = "200,202,404"
   }
 }
 
