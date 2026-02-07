@@ -11,7 +11,7 @@
 
 resource "aws_launch_template" "lc_web" {
   name = "lc_web-launch-template"
-  image_id = "ami-00d0ecca5d4f95941"
+  image_id = "ami-0f5d0b77b5c74f992"
   instance_type = "t3.micro"        # replace with desired instance type
   #security_groups = [aws_security_group.terraform-blue-green.id]
 
@@ -33,13 +33,13 @@ resource "aws_lb_target_group" "web" {
 
   health_check {
     interval            = 30
-    path                = "/index.html"
+    path                = "/"
     port                = 8080
     healthy_threshold   = 2
     unhealthy_threshold = 2
     timeout             = 3
     protocol            = "HTTP"
-    matcher             = "200,202,404"
+    matcher             = "200-499"
   }
 }
 
