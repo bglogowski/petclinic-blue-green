@@ -26,7 +26,7 @@ resource "aws_lb_target_group" "web" {
   name = "${var.environment}-web-group-1"
 
   #depends_on  = ["${data.aws_vpc.production.id}"]
-  port        = 8080
+  port        = 8085
   protocol    = "HTTP"
   vpc_id      = data.aws_vpc.production.id
   target_type = "instance"
@@ -34,7 +34,7 @@ resource "aws_lb_target_group" "web" {
   health_check {
     interval            = 30
     path                = "/index.html"
-    port                = 8080
+    port                = 8085
     healthy_threshold   = 2
     unhealthy_threshold = 2
     timeout             = 3
