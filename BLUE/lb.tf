@@ -18,7 +18,7 @@ resource "aws_lb" "terraform-blue-green" {
 
 resource "aws_lb_listener" "web" {
   load_balancer_arn = aws_lb.terraform-blue-green.arn
-  port              = "8085"
+  port              = "8080"
   protocol          = "HTTP"
 
   default_action {
