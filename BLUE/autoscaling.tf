@@ -1,6 +1,6 @@
 
-resource "aws_launch_template" "lc_web" {
-  name = "lc_web-launch-template"
+resource "aws_launch_template" "blue_lc_web" {
+  name = "blue_lc_web-launch-template"
   image_id = "ami-0f5d0b77b5c74f992"
   instance_type = "t3.micro"
   vpc_security_group_ids = ["${aws_security_group.terraform-blue-green.id}"]
@@ -44,7 +44,7 @@ resource "aws_autoscaling_group" "instance_ami" {
   target_group_arns   = [aws_lb_target_group.web.arn]
 
   launch_template {
-    id = aws_launch_template.lc_web.id
+    id = aws_launch_template.blue_lc_web.id
     version = "$Latest"
   }
 
