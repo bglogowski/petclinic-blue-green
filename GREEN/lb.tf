@@ -9,7 +9,7 @@ resource "aws_lb" "terraform-blue-green" {
   #instances = ["${aws_instance.test-instance.*.id}"]
 
   tags = {
-    Name        = "terraform-blue-green-v${var.infrastructure_version}"
+    Name        = "terraform-blue-green-${var.environment}"
     Environment = "${var.prod_environment}-${var.environment}"
     Created_by  = var.Created_By
     Tool        = var.Tool
