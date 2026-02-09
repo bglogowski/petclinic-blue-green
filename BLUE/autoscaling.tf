@@ -1,13 +1,3 @@
-#resource "aws_launch_configuration" "lc_web" {
-#  image_id        = data.aws_ami.instance_ami.id
-#  instance_type   = "t2.micro"
-#  security_groups = [aws_security_group.terraform-blue-green.id]
-#
-#  #security_groups = ["${aws_security_group.web_security_group.id}"]
-#  lifecycle {
-#    create_before_destroy = true
-#  }
-#}
 
 resource "aws_launch_template" "lc_web" {
   name = "lc_web-launch-template"
@@ -17,13 +7,11 @@ resource "aws_launch_template" "lc_web" {
   lifecycle {
     create_before_destroy = true
   }
-
 }
 
 resource "aws_lb_target_group" "web" {
   name = "${var.environment}-web-group-1"
 
-  #depends_on  = ["${data.aws_vpc.production.id}"]
   port        = 8080
   protocol    = "HTTP"
   vpc_id      = data.aws_vpc.production.id
@@ -96,7 +84,6 @@ resource "aws_autoscaling_policy" "web_target_tracking_policy" {
     predefined_metric_specification {
       predefined_metric_type = "ASGAverageCPUUtilization"
     }
-
     target_value = "60"
   }
 }
