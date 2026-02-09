@@ -44,7 +44,7 @@ resource "aws_autoscaling_policy" "web_target_tracking_policy" {
 }
 
 resource "aws_autoscaling_group" "instance_ami" {
-  name                      = "asg-node-app-${aws_launch_configuration.lc_web.name}"
+  #name                      = "asg-node-app-${aws_launch_configuration.lc_web.name}"
   #launch_configuration      = aws_launch_configuration.lc_web.name
   #availability_zones        = var.availability_zones
   min_size                  = 1
