@@ -1,31 +1,17 @@
-#resource "aws_launch_configuration" "lc_web" {
-#  image_id        = data.aws_ami.instance_ami.id
-#  instance_type   = "t2.micro"
-#  security_groups = [aws_security_group.terraform-blue-green.id]
-#
-#  #security_groups = ["${aws_security_group.web_security_group.id}"]
-#  lifecycle {
-#    create_before_destroy = true
-#  }
-#}
 
 resource "aws_launch_template" "lc_web" {
   name = "lc_web-launch-template"
   image_id = "ami-0f5d0b77b5c74f992"
-  instance_type = "t3.micro"        # replace with desired instance type
-  #security_groups = [aws_security_group.terraform-blue-green.id]
-
-  #security_groups = ["${aws_security_group.web_security_group.id}"]
+  instance_type = "t3.micro"
+  vpc_security_group_ids = ["${aws_security_group.terraform-blue-green.id}"]
   lifecycle {
     create_before_destroy = true
   }
-
 }
 
 resource "aws_lb_target_group" "web" {
   name = "${var.environment}-web-group-1"
 
-  #depends_on  = ["${data.aws_vpc.production.id}"]
   port        = 8080
   protocol    = "HTTP"
   vpc_id      = data.aws_vpc.production.id
@@ -37,7 +23,7 @@ resource "aws_lb_target_group" "web" {
     port                = 8080
     healthy_threshold   = 2
     unhealthy_threshold = 2
-    timeout             = 3
+    timeout             = 10
     protocol            = "HTTP"
     matcher             = "200-499"
   }
@@ -47,13 +33,12 @@ resource "aws_autoscaling_policy" "web_target_tracking_policy" {
   name                      = "web-target-tracking-policy"
   policy_type               = "TargetTrackingScaling"
   autoscaling_group_name    = aws_autoscaling_group.instance_ami.name
-  estimated_instance_warmup = 300
+  estimated_instance_warmup = 200
 
   target_tracking_configuration {
     predefined_metric_specification {
       predefined_metric_type = "ASGAverageCPUUtilization"
     }
-
     target_value = "60"
   }
 }
@@ -65,7 +50,7 @@ resource "aws_autoscaling_group" "instance_ami" {
   min_size                  = 1
   max_size                  = 4
   desired_capacity          = 2
-  health_check_grace_period = 60
+  health_check_grace_period = 300
   termination_policies      = ["OldestLaunchConfiguration"]
   health_check_type         = "ELB"
 
