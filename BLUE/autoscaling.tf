@@ -16,6 +16,7 @@ resource "aws_launch_template" "lc_web" {
   #security_groups = [aws_security_group.terraform-blue-green.id]
 
   #security_groups = ["${aws_security_group.web_security_group.id}"]
+  vpc_security_group_ids = ["${aws_security_group.web_security_group.id}"]
   lifecycle {
     create_before_destroy = true
   }
@@ -37,7 +38,7 @@ resource "aws_lb_target_group" "web" {
     port                = 8080
     healthy_threshold   = 2
     unhealthy_threshold = 2
-    timeout             = 3
+    timeout             = 10
     protocol            = "HTTP"
     matcher             = "200-499"
   }
@@ -50,7 +51,7 @@ resource "aws_autoscaling_group" "instance_ami" {
   min_size                  = 1
   max_size                  = 4
   desired_capacity          = 2
-  health_check_grace_period = 60
+  health_check_grace_period = 300
   termination_policies      = ["OldestLaunchConfiguration"]
   health_check_type         = "ELB"
 
